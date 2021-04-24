@@ -7,29 +7,6 @@ from scipy import signal
 
 COLORS = ['r', 'b', 'g', 'y', 'purple', 'brown', 'pink']
 
-def plot_time_and_frequency(filename):
-    rate, data = wf.read(filename)  # reads wav file.
-    left_channel = data.T[0]
-
-    # plot amplitude vs time:
-    length = data.shape[0] / rate
-    time = np.linspace(0., length, data.shape[0])
-    plt.plot(time, left_channel, label="Left channel")
-    plt.xlabel("Time [s]")
-    plt.ylabel("Amplitude [v]")
-    plt.title('Amplitude vs. time')
-    plt.show()
-
-    #plot in frequency domain
-    normalized = [(ele / 2 ** 8.) * 2 - 1 for ele in left_channel]
-    fouriered = fft(normalized)
-    half = len(fouriered) // 2
-    plt.plot(abs(fouriered[:(half - 1)]), 'r')
-    plt.xlabel("Frequency [1/s]")
-    plt.Axes.set_xlim(right=1000)
-    plt.ylabel("Amplitude [v]")
-    plt.title('Amplitude vs. frequency')
-    plt.show()
 
 def plot_times_and_frequencies(files):
     rates = []
@@ -110,20 +87,3 @@ if __name__ == "__main__":
     plot_times_and_frequencies(notes)
 
     # plot_stft('jony-line.wav')
-
-# if __name__ == "__main__":
-#     samplerate, data = wf.read("316912__jaz-the-man-2__sol.wav")
-#     length = data.shape[0] / samplerate
-#     time = np.linspace(0., length, data.shape[0])
-#     plt.plot(time, data[:, 0], label="Left channel")
-#     # plt.plot(time, data[:, 1], label="Right channel")
-#     plt.legend()
-#     plt.xlabel("Time [s]")
-#     plt.ylabel("Amplitude")
-#
-#     fourierd = np.fft.fft(length)
-#     frequency = np.linspace(0., fourierd, data.shape[0])
-#     plt.plot(frequency, fourierd)
-#     plt.show()
-#
-#     np.savetxt('time.txt', time)
